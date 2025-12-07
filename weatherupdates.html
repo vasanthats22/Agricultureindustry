@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Updates | Stackly Agriculture Industry</title>
+  <style>
+    /* RESET */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Arial, sans-serif; line-height:1.6; color:#111; background:#f9f9f9; overflow-x:hidden; position:relative; }
+
+/* BACKGROUND IMAGE */
+.bg-image {
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
+  background: url('agri1.webp') center/cover no-repeat;
+  opacity:0.12; z-index:-1;
+}
+
+/* WEATHER SECTIONS */
+.weather-section {
+  display:flex; justify-content:center; align-items:center;
+  padding:80px 20px; text-align:center;
+}
+.weather-section .content {
+  max-width:800px;
+  background:rgba(255,255,255,0.9);
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.1);
+}
+.weather-section h2 {
+  font-size:28px; margin-bottom:15px; color:#1b5e20;
+}
+.weather-section p {
+  font-size:16px; color:#333;
+}
+
+/* SECTIONS SPACING */
+.section1{}
+.section2{}
+.section3{}
+.section4{}
+.section5{}
+.section6{}
+.section7{margin-bottom:50px;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .weather-section { padding:50px 15px; }
+  .weather-section .content { padding:20px; }
+  .weather-section h2 { font-size:22px; }
+  .weather-section p { font-size:14px; }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+<div id="header-placeholder"></div>
+
+  <!-- Background Image -->
+  <div class="bg-image"></div>
+
+  <!-- Header Placeholder -->
+  <div id="header-placeholder"></div>
+
+  <!-- Main Sections -->
+  <section class="weather-section section1">
+    <div class="content">
+      <h2>Temperature Trends</h2>
+      <p>Stay updated with daily and weekly temperature trends affecting crop growth across regions.</p>
+    </div>
+  </section>
+
+  <section class="weather-section section2">
+    <div class="content">
+      <h2>Rainfall Overview</h2>
+      <p>Plan irrigation schedules based on accurate rainfall predictions and regional forecasts.</p>
+    </div>
+  </section>
+
+  <section class="weather-section section3">
+    <div class="content">
+      <h2>Humidity Monitoring</h2>
+      <p>Monitor humidity patterns to prevent crop diseases and optimize greenhouse conditions.</p>
+    </div>
+  </section>
+
+  <section class="weather-section section4">
+    <div class="content">
+      <h2>Wind Patterns</h2>
+      <p>Track wind speed and direction to protect crops and plan safe spraying operations.</p>
+    </div>
+  </section>
+
+  <section class="weather-section section5">
+    <div class="content">
+      <h2>UV Exposure</h2>
+      <p>Understand UV intensity to safeguard sensitive crops and plan outdoor fieldwork.</p>
+    </div>
+  </section>
+
+  <section class="weather-section section6">
+    <div class="content">
+      <h2>Storm Alerts</h2>
+      <p>Receive early warnings about storms, hail, or extreme weather events affecting farms.</p>
+    </div>
+  </section>
+
+  <section class="weather-section section7">
+    <div class="content">
+      <h2>Weekly Weather Summary</h2>
+      <p>Review a weekly summary of all weather conditions to make informed crop management decisions.</p>
+    </div>
+  </section>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>    
+
+<script>
+  // Load header
+  fetch('header2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+
+      // Header Interactions
+      const menuBtn = document.querySelector('.menu-btn');
+      const homeArrow = document.querySelector('.home-link span');
+
+      menuBtn?.addEventListener('click', () => {
+        document.getElementById('navBar').classList.toggle('active');
+      });
+
+      homeArrow?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const li = event.target.closest('li');
+        li.classList.toggle('show-submenu');
+      });
+    });
+
+  // Load footer
+  fetch('footer2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+
+      // Subscribe button JS (after footer is loaded)
+      const subscribeBtn = document.getElementById('subscribeButton');
+      const emailInput = document.getElementById('newsletterEmail');
+      const emailError = document.getElementById('emailError');
+
+      subscribeBtn?.addEventListener('click', function(e) {
+        const email = emailInput.value.trim();
+        const valid = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+        if (valid.test(email)) {
+          // Redirect to 404error.html only if email is valid
+          window.location.href = '4042.html';
+        } else {
+          e.preventDefault();
+          emailError.style.display = 'block';
+          emailInput.style.border = '2px solid #ff7a00';
+        }
+      });
+
+      emailInput?.addEventListener('input', function() {
+        emailError.style.display = 'none';
+        emailInput.style.border = 'none';
+      });
+    });
+
+  // Animate service boxes on scroll
+  const serviceBoxes = document.querySelectorAll('.service-box');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, index) => {
+      if(entry.isIntersecting){
+        entry.target.style.animation = `fadeInUp 0.8s forwards`;
+        entry.target.style.animationDelay = `${index * 0.2}s`;
+      }
+    });
+  }, {threshold:0.2});
+  serviceBoxes.forEach(box => observer.observe(box));
+</script>
+
+</body>
+</html>

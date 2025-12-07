@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Updates | Stackly Agriculture Industry</title>
+  <style>
+    /* RESET */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Arial', sans-serif; line-height:1.6; color:#111; background:#f5f5f5; overflow-x:hidden; position:relative; }
+
+/* BACKGROUND IMAGE */
+.bg-image {
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
+  background: url('agri3.webp') center/cover no-repeat;
+  opacity:0.1; z-index:-1;
+}
+
+/* SCHEME SECTIONS */
+.scheme-section {
+  display:flex; justify-content:center; align-items:center;
+  padding:80px 20px;
+}
+.scheme-section .content {
+  max-width:700px;
+  background:rgba(255,255,255,0.95);
+  padding:40px 30px;
+  border-radius:15px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.1);
+  text-align:center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.scheme-section .content:hover {
+  transform: translateY(-5px);
+  box-shadow:0 12px 40px rgba(0,0,0,0.15);
+}
+.scheme-section h2 {
+  font-size:30px;
+  margin-bottom:15px;
+  color:#1b5e20;
+}
+.scheme-section p {
+  font-size:17px;
+  color:#333;
+}
+
+/* ALTERNATE SECTION COLORS */
+.scheme-section:nth-child(odd) .content { background: rgba(255,255,255,0.95); }
+.scheme-section:nth-child(even) .content { background: rgba(240,255,240,0.95); }
+
+/* RESPONSIVE */
+@media(max-width:992px){
+  .scheme-section { padding:60px 15px; }
+  .scheme-section .content { width:100%; padding:30px 20px; }
+  .scheme-section h2 { font-size:24px; }
+  .scheme-section p { font-size:15px; }
+}
+@media(max-width:576px){
+  .scheme-section { padding:50px 10px; }
+  .scheme-section .content { padding:25px 15px; }
+  .scheme-section h2 { font-size:22px; }
+  .scheme-section p { font-size:14px; }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+<div id="header-placeholder"></div>
+
+  <!-- Background Image -->
+<div class="bg-image"></div>
+
+<!-- Main Sections -->
+<section class="scheme-section">
+  <div class="content">
+    <h2>Government Schemes</h2>
+    <p>Explore all government schemes that support farmers, including subsidies, grants, and programs to boost agriculture.</p>
+  </div>
+</section>
+
+<section class="scheme-section">
+  <div class="content">
+    <h2>Financial Assistance</h2>
+    <p>Access loans, crop insurance, and financial support for sustainable farming practices and better yield.</p>
+  </div>
+</section>
+
+<section class="scheme-section">
+  <div class="content">
+    <h2>Training Programs</h2>
+    <p>Participate in workshops and expert-led training sessions to improve your agricultural skills.</p>
+  </div>
+</section>
+
+<section class="scheme-section">
+  <div class="content">
+    <h2>Technology Support</h2>
+    <p>Get modern farming tools, smart irrigation solutions, and soil testing facilities for efficient agriculture.</p>
+  </div>
+</section>
+
+<section class="scheme-section">
+  <div class="content">
+    <h2>Marketing Assistance</h2>
+    <p>Receive guidance on crop marketing, market access, and export opportunities for better profit.</p>
+  </div>
+</section>
+
+<section class="scheme-section">
+  <div class="content">
+    <h2>Resource Centers</h2>
+    <p>Connect with local resource centers for equipment rental, advisory services, and support programs.</p>
+  </div>
+</section>
+
+<section class="scheme-section">
+  <div class="content">
+    <h2>Seasonal Alerts</h2>
+    <p>Stay updated on seasonal changes, extreme weather alerts, and drought or frost warnings.</p>
+  </div>
+</section>
+
+<section class="scheme-section">
+  <div class="content">
+    <h2>Weekly Summary</h2>
+    <p>Get a complete summary of schemes, benefits, and updates affecting the agriculture sector.</p>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>    
+
+<script>
+  // Load header
+  fetch('header2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+
+      // Header Interactions
+      const menuBtn = document.querySelector('.menu-btn');
+      const homeArrow = document.querySelector('.home-link span');
+
+      menuBtn?.addEventListener('click', () => {
+        document.getElementById('navBar').classList.toggle('active');
+      });
+
+      homeArrow?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const li = event.target.closest('li');
+        li.classList.toggle('show-submenu');
+      });
+    });
+
+  // Load footer
+  fetch('footer2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+
+      // Subscribe button JS (after footer is loaded)
+      const subscribeBtn = document.getElementById('subscribeButton');
+      const emailInput = document.getElementById('newsletterEmail');
+      const emailError = document.getElementById('emailError');
+
+      subscribeBtn?.addEventListener('click', function(e) {
+        const email = emailInput.value.trim();
+        const valid = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+        if (valid.test(email)) {
+          // Redirect to 404error.html only if email is valid
+          window.location.href = '4042.html';
+        } else {
+          e.preventDefault();
+          emailError.style.display = 'block';
+          emailInput.style.border = '2px solid #ff7a00';
+        }
+      });
+
+      emailInput?.addEventListener('input', function() {
+        emailError.style.display = 'none';
+        emailInput.style.border = 'none';
+      });
+    });
+
+  // Animate service boxes on scroll
+  const serviceBoxes = document.querySelectorAll('.service-box');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, index) => {
+      if(entry.isIntersecting){
+        entry.target.style.animation = `fadeInUp 0.8s forwards`;
+        entry.target.style.animationDelay = `${index * 0.2}s`;
+      }
+    });
+  }, {threshold:0.2});
+  serviceBoxes.forEach(box => observer.observe(box));
+</script>
+
+</body>
+</html>

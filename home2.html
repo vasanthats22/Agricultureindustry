@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Updates | Stackly Agriculture Industry</title>
+  <style>
+    /* RESET */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Arial, sans-serif; line-height:1.6; color:#111; background:#f9f9f9; overflow-x:hidden; }
+
+/* INTRO SECTION */
+.home-intro {
+  text-align:center; padding:100px 20px 60px; background:#e6f4ea;
+}
+.home-intro .intro-img {
+  max-width:600px; width:90%; margin-bottom:25px; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.1);
+}
+.home-intro h1 { font-size:42px; color:#1b5e20; margin-bottom:15px; }
+.home-intro p { font-size:18px; max-width:700px; margin:0 auto; color:#333; }
+
+/* SECTIONS */
+.home-section {
+  padding:80px 20px; display:flex; justify-content:center; align-items:center;
+}
+.home-section .content {
+  max-width:800px; width:100%; background:#fff; padding:30px; border-radius:12px;
+  box-shadow:0 6px 25px rgba(0,0,0,0.08); transition:0.3s;
+}
+.home-section .content h2 { font-size:28px; margin-bottom:15px; color:#1b5e20; }
+.home-section .content p { font-size:16px; color:#333; }
+
+/* HOVER EFFECT */
+.home-section .content:hover {
+  transform:translateY(-5px);
+  box-shadow:0 10px 30px rgba(0,0,0,0.12);
+}
+
+/* ALTERNATE BACKGROUNDS */
+.home-section:nth-child(even) .content { background:#e8f5e9; }
+
+/* RESPONSIVE */
+@media(max-width:992px){
+  .home-section { padding:60px 15px; }
+  .home-section .content h2 { font-size:24px; }
+  .home-section .content p { font-size:15px; }
+}
+@media(max-width:576px){
+  .home-intro { padding:60px 15px 40px; }
+  .home-intro h1 { font-size:30px; }
+  .home-intro p { font-size:16px; }
+  .home-intro .intro-img { max-width:90%; }
+  .home-section { padding:40px 10px; }
+  .home-section .content h2 { font-size:20px; }
+  .home-section .content p { font-size:14px; }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<!-- Home Page Mid Content -->
+
+<!-- Introduction Section -->
+<section class="home-intro">
+  <div class="intro-content">
+    <img src="agri3.webp" alt="Agriculture Solutions" class="intro-img" height="250px" width="250px">
+    <h1>Welcome to Stackly Agriculture Industry</h1>
+    <p>Providing innovative solutions and insights to empower modern farming and agribusiness.</p>
+  </div>
+</section>
+
+<!-- Section 1: Sustainable Farming -->
+<section class="home-section section1">
+  <div class="content">
+    <h2>Sustainable Farming Practices</h2>
+    <p>Learn modern techniques that increase productivity while conserving soil and water resources for long-term agricultural sustainability.</p>
+  </div>
+</section>
+
+<!-- Section 2: Crop Research & Innovation -->
+<section class="home-section section2">
+  <div class="content">
+    <h2>Crop Research & Innovation</h2>
+    <p>Explore cutting-edge research on crop varieties, pest-resistant seeds, and yield improvement methods to stay ahead in agriculture.</p>
+  </div>
+</section>
+
+<!-- Section 3: Farm Technology -->
+<section class="home-section section3">
+  <div class="content">
+    <h2>Farm Technology</h2>
+    <p>Utilize smart tools, IoT devices, and precision agriculture technologies to monitor crops, optimize irrigation, and increase efficiency.</p>
+  </div>
+</section>
+
+<!-- Section 4: Soil Health & Fertility -->
+<section class="home-section section4">
+  <div class="content">
+    <h2>Soil Health & Fertility</h2>
+    <p>Get expert guidance on soil testing, nutrient management, and organic solutions to maintain soil fertility and improve crop yield.</p>
+  </div>
+</section>
+
+<!-- Section 5: Market Analysis -->
+<section class="home-section section5">
+  <div class="content">
+    <h2>Market Analysis</h2>
+    <p>Access up-to-date market trends, commodity prices, and trade insights to make informed decisions for selling and procurement.</p>
+  </div>
+</section>
+
+<!-- Section 6: Agricultural Policies -->
+<section class="home-section section6">
+  <div class="content">
+    <h2>Agricultural Policies</h2>
+    <p>Stay informed about government policies, subsidies, and support programs that can enhance farm productivity and profitability.</p>
+  </div>
+</section>
+
+<!-- Section 7: Training & Workshops -->
+<section class="home-section section7">
+  <div class="content">
+    <h2>Training & Workshops</h2>
+    <p>Participate in expert-led workshops and online training programs to enhance your knowledge on modern agricultural techniques.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>    
+
+<script>
+  // Load header
+  fetch('header2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+
+      // Header Interactions
+      const menuBtn = document.querySelector('.menu-btn');
+      const homeArrow = document.querySelector('.home-link span');
+
+      menuBtn?.addEventListener('click', () => {
+        document.getElementById('navBar').classList.toggle('active');
+      });
+
+      homeArrow?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const li = event.target.closest('li');
+        li.classList.toggle('show-submenu');
+      });
+    });
+
+  // Load footer
+  fetch('footer2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+
+      // Subscribe button JS (after footer is loaded)
+      const subscribeBtn = document.getElementById('subscribeButton');
+      const emailInput = document.getElementById('newsletterEmail');
+      const emailError = document.getElementById('emailError');
+
+      subscribeBtn?.addEventListener('click', function(e) {
+        const email = emailInput.value.trim();
+        const valid = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+        if (valid.test(email)) {
+          // Redirect to 404error.html only if email is valid
+          window.location.href = '4042.html';
+        } else {
+          e.preventDefault();
+          emailError.style.display = 'block';
+          emailInput.style.border = '2px solid #ff7a00';
+        }
+      });
+
+      emailInput?.addEventListener('input', function() {
+        emailError.style.display = 'none';
+        emailInput.style.border = 'none';
+      });
+    });
+
+  // Animate service boxes on scroll
+  const serviceBoxes = document.querySelectorAll('.service-box');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, index) => {
+      if(entry.isIntersecting){
+        entry.target.style.animation = `fadeInUp 0.8s forwards`;
+        entry.target.style.animationDelay = `${index * 0.2}s`;
+      }
+    });
+  }, {threshold:0.2});
+  serviceBoxes.forEach(box => observer.observe(box));
+</script>
+
+</body>
+</html>

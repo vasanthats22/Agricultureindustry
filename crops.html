@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Updates | Stackly Agriculture Industry</title>
+  <style>
+    /* RESET */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Arial', sans-serif; line-height:1.6; color:#111; background:#f4f7f6; overflow-x:hidden; }
+
+/* HERO SECTION */
+.crops-hero {
+  text-align:center; padding:100px 20px 60px; background:linear-gradient(135deg,#1b5e20,#34a853); color:#fff;
+}
+.crops-hero h1 { font-size:42px; margin-bottom:15px; }
+.crops-hero p { font-size:20px; max-width:700px; margin:0 auto; }
+
+/* CROPS SECTIONS */
+.crops-section {
+  padding:80px 20px; display:flex; justify-content:center; align-items:center; flex-wrap:wrap;
+}
+.crops-section .content {
+  max-width:800px; width:100%; background:#fff; padding:30px; border-radius:12px;
+  box-shadow:0 6px 25px rgba(0,0,0,0.08); transition:0.3s;
+}
+.crops-section .content h2 { font-size:28px; margin-bottom:15px; color:#1b5e20; }
+.crops-section .content p { font-size:16px; color:#333; }
+
+/* HOVER EFFECT */
+.crops-section .content:hover {
+  transform:translateY(-5px);
+  box-shadow:0 10px 30px rgba(0,0,0,0.12);
+}
+
+/* ALTERNATE BACKGROUND COLORS */
+.crops-section:nth-child(even) .content { background:#e8f5e9; }
+
+/* RESPONSIVE */
+@media(max-width:992px){
+  .crops-section { padding:60px 15px; }
+  .crops-section .content h2 { font-size:24px; }
+  .crops-section .content p { font-size:15px; }
+}
+@media(max-width:576px){
+  .crops-hero { padding:60px 15px 40px; }
+  .crops-hero h1 { font-size:30px; }
+  .crops-hero p { font-size:16px; }
+  .crops-section { padding:40px 10px; }
+  .crops-section .content h2 { font-size:20px; }
+  .crops-section .content p { font-size:14px; }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<!-- Crops Page Mid Content -->
+
+<!-- Hero Section -->
+<section class="crops-hero">
+  <div class="hero-content">
+    <h1>Crop Information & Profiles</h1>
+    <p>Discover detailed profiles, cultivation methods, and insights for major crops.</p>
+  </div>
+</section>
+
+<!-- Section 1: Overview -->
+<section class="crops-section section1">
+  <div class="content">
+    <h2>Crop Overview</h2>
+    <p>Explore major crops grown across regions, including wheat, rice, maize, pulses, and vegetables. Learn about seasonal patterns and production statistics.</p>
+  </div>
+</section>
+
+<!-- Section 2: Soil & Fertilizer -->
+<section class="crops-section section2">
+  <div class="content">
+    <h2>Soil & Fertilizer Requirements</h2>
+    <p>Understand soil types, nutrient requirements, and fertilizer usage for optimal crop yield.</p>
+  </div>
+</section>
+
+<!-- Section 3: Irrigation & Water Management -->
+<section class="crops-section section3">
+  <div class="content">
+    <h2>Irrigation & Water Management</h2>
+    <p>Learn about irrigation techniques, water-saving methods, and best practices to enhance productivity.</p>
+  </div>
+</section>
+
+<!-- Section 4: Crop Diseases & Pest Management -->
+<section class="crops-section section4">
+  <div class="content">
+    <h2>Crop Diseases & Pest Management</h2>
+    <p>Identify common crop diseases and pests, along with preventive measures and treatment strategies.</p>
+  </div>
+</section>
+
+<!-- Section 5: Harvesting & Yield -->
+<section class="crops-section section5">
+  <div class="content">
+    <h2>Harvesting & Yield</h2>
+    <p>Get insights on harvesting schedules, techniques, and methods to calculate expected yield.</p>
+  </div>
+</section>
+
+<!-- Section 6: Market Opportunities -->
+<section class="crops-section section6">
+  <div class="content">
+    <h2>Market Opportunities</h2>
+    <p>Analyze market trends and demand for each crop to plan sales and optimize profits.</p>
+  </div>
+</section>
+
+<!-- Section 7: Sustainability & Best Practices -->
+<section class="crops-section section7">
+  <div class="content">
+    <h2>Sustainability & Best Practices</h2>
+    <p>Learn about sustainable farming practices, organic cultivation, and resource-efficient crop management.</p>
+  </div>
+</section>
+
+<!-- Section 8: Crop Innovations -->
+<section class="crops-section section8">
+  <div class="content">
+    <h2>Crop Innovations</h2>
+    <p>Explore modern farming techniques, hybrid seeds, precision agriculture, and technology-driven improvements.</p>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>    
+
+<script>
+  // Load header
+  fetch('header2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+
+      // Header Interactions
+      const menuBtn = document.querySelector('.menu-btn');
+      const homeArrow = document.querySelector('.home-link span');
+
+      menuBtn?.addEventListener('click', () => {
+        document.getElementById('navBar').classList.toggle('active');
+      });
+
+      homeArrow?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const li = event.target.closest('li');
+        li.classList.toggle('show-submenu');
+      });
+    });
+
+  // Load footer
+  fetch('footer2.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+
+      // Subscribe button JS (after footer is loaded)
+      const subscribeBtn = document.getElementById('subscribeButton');
+      const emailInput = document.getElementById('newsletterEmail');
+      const emailError = document.getElementById('emailError');
+
+      subscribeBtn?.addEventListener('click', function(e) {
+        const email = emailInput.value.trim();
+        const valid = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+        if (valid.test(email)) {
+          // Redirect to 404error.html only if email is valid
+          window.location.href = '4042.html';
+        } else {
+          e.preventDefault();
+          emailError.style.display = 'block';
+          emailInput.style.border = '2px solid #ff7a00';
+        }
+      });
+
+      emailInput?.addEventListener('input', function() {
+        emailError.style.display = 'none';
+        emailInput.style.border = 'none';
+      });
+    });
+
+  // Animate service boxes on scroll
+  const serviceBoxes = document.querySelectorAll('.service-box');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, index) => {
+      if(entry.isIntersecting){
+        entry.target.style.animation = `fadeInUp 0.8s forwards`;
+        entry.target.style.animationDelay = `${index * 0.2}s`;
+      }
+    });
+  }, {threshold:0.2});
+  serviceBoxes.forEach(box => observer.observe(box));
+</script>
+
+</body>
+</html>

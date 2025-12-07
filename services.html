@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agriculture Services</title>
+
+<style>
+  /* SERVICES PAGE - SAFE CSS */
+.service-wrapper {
+    width: 90%;
+    max-width: 900px;
+    margin: auto;
+    padding: 20px 0;
+}
+
+.service-hero img {
+    width: 100%;
+    border-radius: 12px;
+    display: block;
+}
+
+.service-section {
+    background: #fff;
+    margin-top: 25px;
+    padding: 22px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.service-title {
+    color: #2d5a27;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.service-heading {
+    color: #2d5a27;
+    font-size: 22px;
+    margin-bottom: 12px;
+}
+
+.service-text {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.6;
+}
+
+/* RESPONSIVE */
+@media(max-width: 600px){
+    .service-title { font-size: 26px; }
+    .service-heading { font-size: 20px; }
+    .service-text { font-size: 15px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<div class="service-wrapper">
+
+    <!-- ONE MAIN IMAGE -->
+    <div class="service-hero">
+        <img src="agri2.webp" alt="Agriculture Services" height="350px; " width="250px">
+    </div>
+
+    <!-- MAIN TITLE -->
+    <div class="service-section">
+        <h1 class="service-title">Our Agriculture Services</h1>
+        <p class="service-text">We provide modern, eco-friendly, and reliable solutions for farmers and agri-businesses.</p>
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="service-section">
+        <h2 class="service-heading">🌱 Organic Farming Guidance</h2>
+        <p class="service-text">Complete support on soil health, natural fertilizers, and chemical-free cultivation.</p>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="service-section">
+        <h2 class="service-heading">🚜 Smart Technology Integration</h2>
+        <p class="service-text">We help farmers adopt drones, IoT sensors, and automated irrigation systems.</p>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="service-section">
+        <h2 class="service-heading">💧 Water Management Solutions</h2>
+        <p class="service-text">Drip irrigation, rainwater harvesting, and modern water-saving techniques.</p>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="service-section">
+        <h2 class="service-heading">🌾 Crop Planning & Advisory</h2>
+        <p class="service-text">Seasonal crop selection, disease control support, and expert recommendations.</p>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="service-section">
+        <h2 class="service-heading">🔬 Soil Testing & Analysis</h2>
+        <p class="service-text">Advanced soil quality testing to improve yields and reduce waste.</p>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="service-section">
+        <h2 class="service-heading">🏪 Market & Selling Support</h2>
+        <p class="service-text">Helping farmers connect with buyers and get the best market price.</p>
+    </div>
+
+    <!-- SECTION 7 -->
+    <div class="service-section">
+        <h2 class="service-heading">📦 Supply Chain & Storage</h2>
+        <p class="service-text">Post-harvest handling, cold storage, and transportation support.</p>
+    </div>
+
+</div>
+
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>    
+
+<script>
+  // Load header
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+
+      // Header Interactions
+      const menuBtn = document.querySelector('.menu-btn');
+      const homeArrow = document.querySelector('.home-link span');
+
+      menuBtn?.addEventListener('click', () => {
+        document.getElementById('navBar').classList.toggle('active');
+      });
+
+      homeArrow?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const li = event.target.closest('li');
+        li.classList.toggle('show-submenu');
+      });
+    });
+
+  // Load footer
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+
+      // Subscribe button JS (after footer is loaded)
+      const subscribeBtn = document.getElementById('subscribeButton');
+      const emailInput = document.getElementById('newsletterEmail');
+      const emailError = document.getElementById('emailError');
+
+      subscribeBtn?.addEventListener('click', function(e) {
+        const email = emailInput.value.trim();
+        const valid = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+        if (valid.test(email)) {
+          // Redirect to 404error.html only if email is valid
+          window.location.href = '404.html';
+        } else {
+          e.preventDefault();
+          emailError.style.display = 'block';
+          emailInput.style.border = '2px solid #ff7a00';
+        }
+      });
+
+      emailInput?.addEventListener('input', function() {
+        emailError.style.display = 'none';
+        emailInput.style.border = 'none';
+      });
+    });
+
+  // Animate service boxes on scroll
+  const serviceBoxes = document.querySelectorAll('.service-box');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, index) => {
+      if(entry.isIntersecting){
+        entry.target.style.animation = `fadeInUp 0.8s forwards`;
+        entry.target.style.animationDelay = `${index * 0.2}s`;
+      }
+    });
+  }, {threshold:0.2});
+  serviceBoxes.forEach(box => observer.observe(box));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Agriculture Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}
+body{background:#f4f4f4; overflow-x:hidden;}
+.layout{display:flex; min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{
+    width:250px;
+    background:#1b5e20; /* Green shade */
+    color:white;
+    padding:20px;
+    flex-shrink:0;
+}
+.sidebar h2{
+    text-align:center;
+    margin-bottom:20px;
+    font-size:22px;
+}
+.sidebar button{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:none;
+    border-radius:8px;
+    background:#2e7d32;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+.sidebar button:hover{background:#3e8e41;}
+
+/* MAIN CONTENT */
+.main{
+    flex:1;
+    padding:20px;
+}
+
+/* SECTION */
+.section{display:none;}
+.section.active{display:block;}
+
+/* CARDS */
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Chart canvas size */
+canvas{max-height:250px !important;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .layout{flex-direction:column;}
+    .sidebar{width:100%; text-align:center;}
+    .sidebar button{max-width:300px;margin:10px auto;}
+    .main{padding:10px;}
+}
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+<div id="header-placeholder"></div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+      <h2>AGRI DASHBOARD</h2>
+      <button onclick="showSection('dashboard')">Dashboard</button>
+      <button onclick="showSection('crops')">Crop Reports</button>
+      <button onclick="showSection('market')">Market Analysis</button>
+      <button onclick="showSection('analytics')">Analytics</button>
+    </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+
+    <!-- DASHBOARD SECTION -->
+    <div id="dashboard" class="section active">
+        <h1>Dashboard Overview</h1>
+        <div class="card">
+            <h2>Total Cultivated Area (ha)</h2>
+            <p>45,000 ha</p>
+        </div>
+        <div class="card">
+            <h2>Production This Year</h2>
+            <p>158,000 tons</p>
+        </div>
+        <div class="card">
+            <h2>Average Yield (t/ha)</h2>
+            <p>3.5</p>
+        </div>
+        <div class="card">
+            <h2>Active Farmers</h2>
+            <p>12,340</p>
+        </div>
+        <div class="card">
+            <h2>Production Trend</h2>
+            <canvas id="lineChart"></canvas>
+        </div>
+    </div>
+
+    <!-- CROPS SECTION -->
+    <div id="crops" class="section">
+        <h1>Crop Reports</h1>
+        <div class="card">
+            <h2>Crop Distribution</h2>
+            <canvas id="pieChart"></canvas>
+        </div>
+        <div class="card">
+            <h2>Top Crops Production</h2>
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+
+    <!-- MARKET SECTION -->
+    <div id="market" class="section">
+        <h1>Market Analysis</h1>
+        <div class="card">
+            <h2>Crop Prices Trend</h2>
+            <canvas id="marketLine"></canvas>
+        </div>
+        <div class="card">
+            <h2>Export vs Domestic Consumption</h2>
+            <canvas id="marketBar"></canvas>
+        </div>
+    </div>
+
+    <!-- ANALYTICS SECTION -->
+    <div id="analytics" class="section">
+        <h1>Analytics</h1>
+        <div class="card">
+            <h2>Soil Health Index</h2>
+            <canvas id="soilChart"></canvas>
+        </div>
+        <div class="card">
+            <h2>Weather Impact on Yield</h2>
+            <canvas id="weatherChart"></canvas>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+<br>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>    
+
+<script>
+  // Load header
+  fetch('header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+
+      // Header Interactions
+      const menuBtn = document.querySelector('.menu-btn');
+      const homeArrow = document.querySelector('.home-link span');
+
+      menuBtn?.addEventListener('click', () => {
+        document.getElementById('navBar').classList.toggle('active');
+      });
+
+      homeArrow?.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const li = event.target.closest('li');
+        li.classList.toggle('show-submenu');
+      });
+    });
+
+  // Load footer
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+
+      // Subscribe button JS (after footer is loaded)
+      const subscribeBtn = document.getElementById('subscribeButton');
+      const emailInput = document.getElementById('newsletterEmail');
+      const emailError = document.getElementById('emailError');
+
+      subscribeBtn?.addEventListener('click', function(e) {
+        const email = emailInput.value.trim();
+        const valid = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+        if (valid.test(email)) {
+          // Redirect to 404error.html only if email is valid
+          window.location.href = '404.html';
+        } else {
+          e.preventDefault();
+          emailError.style.display = 'block';
+          emailInput.style.border = '2px solid #ff7a00';
+        }
+      });
+
+      emailInput?.addEventListener('input', function() {
+        emailError.style.display = 'none';
+        emailInput.style.border = 'none';
+      });
+    });
+
+  // Animate service boxes on scroll
+  const serviceBoxes = document.querySelectorAll('.service-box');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, index) => {
+      if(entry.isIntersecting){
+        entry.target.style.animation = `fadeInUp 0.8s forwards`;
+        entry.target.style.animationDelay = `${index * 0.2}s`;
+      }
+    });
+  }, {threshold:0.2});
+  serviceBoxes.forEach(box => observer.observe(box));
+
+
+// dashboard
+
+function showSection(id){
+    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+/* LINE CHART: Production Trend */
+new Chart(document.getElementById("lineChart"), {
+    type: "line",
+    data: {
+        labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct"],
+        datasets: [{
+            label: "Monthly Production (tons)",
+            data: [12000,15000,14000,18000,22000,20000,25000,23000,26000,27000],
+            borderColor:"#1b5e20",
+            backgroundColor:"rgba(27,94,32,0.2)",
+            borderWidth:2,
+            fill:true
+        }]
+    }
+});
+
+/* PIE CHART: Crop Distribution */
+new Chart(document.getElementById("pieChart"), {
+    type: "pie",
+    data: {
+        labels: ["Wheat", "Rice", "Maize", "Pulses", "Vegetables"],
+        datasets: [{
+            data: [30,28,18,12,12],
+            backgroundColor: ["#4caf50","#81c784","#c8e6c9","#ffb74d","#ff8a65"]
+        }]
+    }
+});
+
+/* BAR CHART: Top Crops Production */
+new Chart(document.getElementById("barChart"), {
+    type: "bar",
+    data: {
+        labels: ["Wheat","Rice","Maize","Pulses","Vegetables"],
+        datasets:[{
+            label:"Production (tons)",
+            data:[45000,42000,30000,18000,18000],
+            backgroundColor:"#2e7d32"
+        }]
+    }
+});
+
+/* MARKET LINE CHART */
+new Chart(document.getElementById("marketLine"),{
+    type:"line",
+    data:{
+        labels:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"],
+        datasets:[{
+            label:"Average Crop Price ($)",
+            data:[120,125,130,128,135,140,138,145],
+            borderColor:"#1976d2",
+            backgroundColor:"rgba(25,118,210,0.2)",
+            fill:true
+        }]
+    }
+});
+
+/* MARKET BAR CHART */
+new Chart(document.getElementById("marketBar"),{
+    type:"bar",
+    data:{
+        labels:["Wheat","Rice","Maize"],
+        datasets:[{
+            label:"Export vs Domestic",
+            data:[30,50,40],
+            backgroundColor:["#388e3c","#8bc34a","#cddc39"]
+        }]
+    }
+});
+
+/* ANALYTICS: Soil Health */
+new Chart(document.getElementById("soilChart"),{
+    type:"doughnut",
+    data:{
+        labels:["Healthy","Moderate","Poor"],
+        datasets:[{
+            data:[55,30,15],
+            backgroundColor:["#4caf50","#ffeb3b","#f44336"]
+        }]
+    }
+});
+
+/* ANALYTICS: Weather Impact */
+new Chart(document.getElementById("weatherChart"),{
+    type:"line",
+    data:{
+        labels:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"],
+        datasets:[{
+            label:"Yield Impact (%)",
+            data:[95,90,85,80,75,70,78,82],
+            borderColor:"#ff9800",
+            backgroundColor:"rgba(255,152,0,0.2)",
+            fill:true
+        }]
+    }
+});
+</script>
+
+</body>
+</html>
